@@ -7,6 +7,7 @@ import Loader from "./Loader/Loader";
 import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn";
 import {useToggle} from "./myHooks/useToggle";
 import ImageModal from "./ImageModal/ImageModal";
+import toast from "react-hot-toast";
 
 function App() {
   const [images, setImages] = useState([]);
@@ -37,8 +38,12 @@ function App() {
             setLoadMoreBtn(false);
           }
         }
+        if (res.error) {
+          throw new Error(res.error);
+        }
       } catch (err) {
         setError(err.messese);
+        toast.error("Error fetching data!");
       } finally {
         setLoading(false);
       }
@@ -64,7 +69,7 @@ function App() {
   return (
     <>
       <SearchBar onSeach={hundleSeach} />
-      <ErrorMessage messege={error} />
+      {error && <ErrorMessage messege={error} />}
       {loading && <Loader />}
       {images.length > 0 && <ImageGallery images={images} onToggle={handleToggle} />}
       {loadMoreBtn && <LoadMoreBtn onLoadMore={hundlePagination} />}
