@@ -42,7 +42,7 @@ function App() {
           throw new Error(res.error);
         }
       } catch (err) {
-        setError(err.messese);
+        setError(err.message);
         toast.error("Error fetching data!");
       } finally {
         setLoading(false);
